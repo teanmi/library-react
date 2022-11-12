@@ -1,20 +1,18 @@
 import React from "react";
-import Landing from "../components/Landing";
-import Highlights from "../components/Highlights";
-import Features from "../components/Featured";
-import CheapestBooks from "../components/CheapestBooks";
+import Discounted from "../components/Discounted";
 import Explore from "../components/Explore";
+import Features from "../components/Features";
+import Highlights from "../components/Highlights";
+import Landing from "../components/Landing";
 
 const Home = () => {
   return (
     <>
       <Landing />
-      <main>
-        <Highlights />
-        <Features />
-        <CheapestBooks />
-        <Explore />
-      </main>
+      <Highlights />
+      <Features />
+      <Discounted />
+      <Explore />
     </>
   );
 };

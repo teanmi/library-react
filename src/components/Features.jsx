@@ -3,7 +3,6 @@ import Book from "./ui/book";
 import { books } from "../data";
 
 const Features = () => {
-  console.log(books)
   return (
     <section id="features">
       <div className="container">

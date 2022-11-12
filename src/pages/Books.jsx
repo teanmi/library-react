@@ -1,42 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Book from "../components/Book";
+import React from "react";
 
-const Books = ({ books: initalBooks }) => {
-  const [books, setBooks] = useState();
-
-  useEffect(() => {
-    setBooks(initalBooks);
-  }, [initalBooks]);
-
-  function filterBooks(filter) {
-    switch (filter) {
-      case "LOW_TO_HIGH":
-        return setBooks(
-          books
-            .slice()
-            .sort(
-              (a, b) =>
-                (a.salePrice || a.originalPrice) -
-                (b.salePrice || b.originalPrice)
-            )
-        );
-      case "HIGH_TO_LOW":
-        return setBooks(
-          books
-            .slice()
-            .sort(
-              (a, b) =>
-                (b.salePrice || b.originalPrice) -
-                (a.salePrice || a.originalPrice)
-            )
-        );
-      case "RATING":
-        return setBooks(books.slice().sort((a, b) => b.rating - a.rating));
-      default:
-        break;
-    }
-  }
-
+const Books = () => {
   return (
     <div id="books__body">
       <main id="books__main">
@@ -47,11 +11,7 @@ const Books = ({ books: initalBooks }) => {
                 <h2 className="section__title books__header--title">
                   All Books
                 </h2>
-                <select
-                  id="filter"
-                  onChange={(event) => filterBooks(event.target.value)}
-                  defaultValue={"DEFAULT"}
-                >
+                <select id="filter" defaultValue="DEFAULT">
                   <option value="DEFAULT" disabled>
                     Sort
                   </option>
@@ -61,9 +21,7 @@ const Books = ({ books: initalBooks }) => {
                 </select>
               </div>
               <div className="books">
-                {books && books.map((book) => {
-                  return <Book book={book} key={book.id} />;
-                })}
+                
               </div>
             </div>
           </div>
