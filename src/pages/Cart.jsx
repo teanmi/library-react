@@ -1,6 +1,20 @@
 import React from "react";
+import BookCart from "../components/ui/bookCart";
+import EmptyCart from "../assets/empty_cart.svg";
+import { Link } from "react-router-dom";
 
-const Cart = ({ books }) => {
+const Cart = ({ cart, changeQuantity, removeBookFromCart }) => {
+  const total = () => {
+    let price = 0;
+
+    cart.forEach(
+      (book) =>
+        (price += (book.salePrice || book.originalPrice) * book.quantity)
+    );
+
+    return price;
+  };
+
   return (
     <div id="books__body">
       <main id="books__main">
@@ -16,54 +30,50 @@ const Cart = ({ books }) => {
                 <span className="cart__total">Price</span>
               </div>
               <div className="cart__body">
-                <div className="cart__item">
-                  <div className="cart__book">
-                    <img
-                      src="https://covers.openlibrary.org/b/id/8091016-L.jpg"
-                      alt=""
-                      className="cart__book--img"
-                    />
-                    <div className="cart__book--info">
-                      <span className="cart__book--title">
-                        Cracking the coding interview
-                      </span>
-                      <div className="cart__book--price">$10.00</div>
-                      <button className="cart__book--remove">Remove</button>
-                    </div>
-                  </div>
-                  <div className="cart__quantity">
-                    <input
-                      type="number"
-                      min={0}
-                      max={99}
-                      className="cart__input"
-                    />
-                  </div>
-                  <div className="cart__total">
-                    $10.00
-                  </div>
-                </div>
+                {cart.map((book) => (
+                  <BookCart
+                    key={book.id}
+                    book={book}
+                    changeQuantity={changeQuantity}
+                    cart={cart}
+                    removeBookFromCart={removeBookFromCart}
+                  />
+                ))}
               </div>
-              <div className="total">
-                <div className="total__item total__sub-total">
-                  <span>Subtotal</span>
-                  <span>$9.00</span>
+              {cart.length === 0 && (
+                <div className="cart__empty">
+                  <img src={EmptyCart} alt="" className="cart__empty--img" />
+                  <h2>You don't have any books in your cart!</h2>
+                  <Link to="/books">
+                    <button className="btn">Browse books</button>
+                  </Link>
                 </div>
-                <div className="total__item total__tax">
-                  <span>Tax</span>
-                  <span>$1.00</span>
+              )}
+            </div>
+              {cart.length > 0 && (
+                <div className="total">
+                  <div className="total__item total__sub-total">
+                    <span>Subtotal</span>
+                    <span>${(total() * 0.93 || 0).toFixed(2)}</span>
+                  </div>
+                  <div className="total__item total__tax">
+                    <span>Tax</span>
+                    <span>${(total() * 0.07 || 0).toFixed(2)}</span>
+                  </div>
+                  <div className="total__item total__price">
+                    <span>Total</span>
+                    <span>${(total() || 0).toFixed(2)}</span>
+                  </div>
+                  <button
+                    className="btn btn__checkout no-cursor"
+                    onClick={() => alert("not a feature")}
+                  >
+                    Proceed to checkout
+                  </button>
                 </div>
-                <div className="total__item total__price">
-                  <span>Total</span>
-                  <span>$10.00</span>
-                </div>
-                <button className="btn btn__checkout no-cursor" onClick={() => alert("not a feature")}>
-                  Proceed to checkout
-                </button>
-              </div>
+              )}
             </div>
           </div>
-        </div>
       </main>
     </div>
   );
